@@ -40,10 +40,15 @@ tests/          单元、契约、集成、Agent、安全和混沌测试
 
 ```powershell
 ./scripts/bootstrap.ps1
+Copy-Item .env.example .env
+# 编辑 .env，至少设置 POSTGRES_PASSWORD、TEMPORAL_POSTGRES_PASSWORD 和 S3_SECRET_ACCESS_KEY
+docker compose --env-file .env -f infra/docker/compose.dev.yml up -d
 ./scripts/run-local.ps1
+pnpm --dir apps/web-console install --frozen-lockfile
 ./scripts/run-console.ps1
-docker compose -f infra/docker/compose.dev.yml up -d
 ```
+
+`.env` 只保存在本地，不应提交到 Git。生产环境请使用 Vault、云密钥管理或 Kubernetes Secret 注入同名变量。
 
 ## 生产部署目标
 
