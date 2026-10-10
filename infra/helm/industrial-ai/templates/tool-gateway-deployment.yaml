@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "industrial-ai.name" . }}-tool-gateway
+  labels:
+    {{- include "industrial-ai.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.toolGateway.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "industrial-ai.name" . }}-tool-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "industrial-ai.name" . }}-tool-gateway
+        {{- include "industrial-ai.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: tool-gateway
+          image: "{{ .Values.toolGateway.image.repository }}:{{ .Values.toolGateway.image.tag }}"
+          ports:
+            - name: http
+              containerPort: 8002
+          readinessProbe:
+            httpGet: { path: /health, port: http }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+

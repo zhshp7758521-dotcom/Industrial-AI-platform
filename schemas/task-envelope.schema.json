@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industrial-ai.local/schemas/task-envelope.schema.json",
+  "title": "TaskEnvelope",
+  "type": "object",
+  "required": ["task_id", "tenant_id", "agent_ref", "goal", "input", "trace_id", "idempotency_key"],
+  "properties": {
+    "task_id": {"type": "string", "minLength": 1},
+    "tenant_id": {"type": "string", "minLength": 1},
+    "project_id": {"type": ["string", "null"]},
+    "agent_ref": {"type": "string", "minLength": 1},
+    "workflow_ref": {"type": ["string", "null"]},
+    "parent_task_id": {"type": ["string", "null"]},
+    "goal": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "input": {"type": "object"},
+    "constraints": {"type": "object"},
+    "context": {"type": "object"},
+    "trace_id": {"type": "string", "minLength": 1},
+    "idempotency_key": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}
+

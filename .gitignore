@@ -1,0 +1,17 @@
+.venv/
+node_modules/
+dist/
+*.tsbuildinfo
+__pycache__/
+*.pyc
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+*.log
+data/local/
+infra/downloads/
+

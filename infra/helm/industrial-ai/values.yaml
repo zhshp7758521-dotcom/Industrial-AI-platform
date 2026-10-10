@@ -1,0 +1,33 @@
+global:
+  imageRegistry: ""
+  imagePullSecrets: []
+  environment: production
+  oidcIssuer: ""
+  kafkaBootstrapServers: ""
+  databaseUrlSecret: industrial-ai-database
+  modelRegistryUrl: ""
+
+gateway:
+  replicas: 3
+  image:
+    repository: industrial-ai/platform-gateway
+    tag: "0.1.0"
+  service:
+    type: ClusterIP
+    port: 8000
+  resources:
+    requests: { cpu: 250m, memory: 512Mi }
+    limits: { cpu: 2, memory: 2Gi }
+
+agentRuntime:
+  replicas: 3
+  image:
+    repository: industrial-ai/agent-runtime
+    tag: "0.1.0"
+
+toolGateway:
+  replicas: 3
+  image:
+    repository: industrial-ai/tool-gateway
+    tag: "0.1.0"
+

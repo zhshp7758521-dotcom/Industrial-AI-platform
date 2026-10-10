@@ -1,0 +1,7 @@
+apiVersion: v2
+name: industrial-ai
+description: Production baseline for the Industrial AI Agent Platform
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+

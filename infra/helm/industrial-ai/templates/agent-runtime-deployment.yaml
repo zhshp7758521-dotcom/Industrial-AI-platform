@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "industrial-ai.name" . }}-agent-runtime
+  labels:
+    {{- include "industrial-ai.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.agentRuntime.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "industrial-ai.name" . }}-agent-runtime
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "industrial-ai.name" . }}-agent-runtime
+        {{- include "industrial-ai.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: agent-runtime
+          image: "{{ .Values.agentRuntime.image.repository }}:{{ .Values.agentRuntime.image.tag }}"
+          ports:
+            - name: http
+              containerPort: 8001
+          readinessProbe:
+            httpGet: { path: /health, port: http }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+
