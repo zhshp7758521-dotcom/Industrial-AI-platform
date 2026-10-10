@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://industrial-ai.local/schemas/control-plane.schema.json",
+  "title": "Industrial AI Control Plane Resources",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/$defs/projectCreate" },
+    { "$ref": "#/$defs/datasetCreate" },
+    { "$ref": "#/$defs/datasetVersionCreate" }
+  ],
+  "$defs": {
+    "projectCreate": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "description": { "type": "string", "maxLength": 2000 }
+      }
+    },
+    "datasetCreate": {
+      "type": "object",
+      "required": ["project_id", "name", "source_type"],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 160 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "source_type": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    },
+    "datasetVersionCreate": {
+      "type": "object",
+      "required": ["version_label", "schema_fingerprint", "content_fingerprint", "artifact_uri"],
+      "additionalProperties": false,
+      "properties": {
+        "version_label": { "type": "string", "minLength": 1, "maxLength": 80 },
+        "schema_fingerprint": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "content_fingerprint": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "row_count": { "type": "integer", "minimum": 0 },
+        "columns": { "type": "array", "maxItems": 1000, "items": { "type": "object" } },
+        "artifact_uri": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "quality_status": { "type": "string", "enum": ["PENDING", "PASSED", "FAILED"] }
+      }
+    }
+  }
+}
+
